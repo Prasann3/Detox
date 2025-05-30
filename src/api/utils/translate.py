@@ -2,6 +2,7 @@ import requests
 from langdetect import detect, LangDetectException
 
 def detect_language(text):
+
     """
     Detect language code of input text using langdetect.
     Returns ISO 639-1 language code like 'en', 'es', etc.
