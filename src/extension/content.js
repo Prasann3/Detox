@@ -5,6 +5,7 @@ function isToxic(predictions) {
   return predictions.toxic > 0.5;
 }
 
+
 function scanComments() {
   const allComments = document.querySelectorAll("#content-text");
 
