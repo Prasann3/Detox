@@ -25,6 +25,7 @@ def translate_to_english_mymemory(text, source_lang="auto", target_lang="en"):
         return text
 
     url = "https://api.mymemory.translated.net/get"
+    
     params = {
         "q": text,
         "langpair": f"{source_lang}|{target_lang}"
