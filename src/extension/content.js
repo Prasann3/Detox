@@ -14,7 +14,7 @@ function scanComments() {
       const text = node.innerText.trim();
       return text.length > 0 && !checkedComments.has(text);
     })
-    .slice(0, 10); // Limit processing per batch
+    .slice(0, 10); // Limiting processing per batch
 
   commentsToProcess.forEach(commentTextNode => {
     const commentContainer = commentTextNode.closest("ytd-comment-thread-renderer");
@@ -22,7 +22,7 @@ function scanComments() {
 
     if (!commentContainer || checkedComments.has(text)) return;
 
-    // Add to set early to avoid duplicates during async
+    // Adding to set early to avoid duplicates during async behaviour
     checkedComments.add(text);
 
     chrome.runtime.sendMessage({ type: "CHECK_TOXICITY", comment: text }, (response) => {
@@ -38,7 +38,7 @@ function scanComments() {
       const originalContent = commentContainer.cloneNode(true);
       const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-      // Create a wrapper with frosted blur
+      // Creating a wrapper with frosted blur
       const blurWrapper = document.createElement("div");
       blurWrapper.style.position = "relative";
       blurWrapper.style.overflow = "hidden";

@@ -10,7 +10,7 @@ print(TOKENIZER_PATH)
 if not os.path.exists(TOKENIZER_PATH) or not os.path.exists(MODEL_PATH):
     raise FileNotFoundError("Tokenizer or Model file not found. Please ensure both are present.")
 
-# Load artifacts once at startup
+# Load artifacts (Tokenizer and RNN model) at startup
 
 with open(TOKENIZER_PATH, "rb") as f:
     tokenizer = pickle.load(f)

@@ -38,5 +38,5 @@ def translate_to_english_mymemory(text, source_lang="auto", target_lang="en"):
         translated_text = data.get("responseData", {}).get("translatedText")
         return translated_text if translated_text else text
     except Exception as e:
-        # Fallback to original text on error
+        # Return the original text on error
         return text
