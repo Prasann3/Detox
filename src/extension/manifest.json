@@ -3,15 +3,26 @@
   "name": "Toxic Comment Detector",
   "version": "1.0",
   "description": "Detects and highlights toxic comments on YouTube",
-  "permissions": ["scripting", "activeTab"],
-  "host_permissions": ["https://www.youtube.com/*"],
+  "permissions": [
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://www.youtube.com/*"
+  ],
   "content_scripts": [
     {
-      "matches": ["https://www.youtube.com/*"],
-      "js": ["content.js"]
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "style.css"
+      ]
     }
   ],
-  
   "background": {
     "service_worker": "background.js"
   }

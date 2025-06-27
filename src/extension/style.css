@@ -1,0 +1,60 @@
+/* Container positioning for overlay */
+.tox-comment-container {
+  position: relative;
+}
+
+/* Blurred wrapper */
+.tox-blur-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  transition: filter 0.3s ease;
+  pointer-events: none;
+  filter: blur(6px) brightness(1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .tox-blur-wrapper {
+    filter: blur(6px) brightness(0.8);
+  }
+}
+
+/* Overlay to reveal comment */
+.tox-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(240, 240, 240, 0.5);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 12px;
+  z-index: 10;
+}
+@media (prefers-color-scheme: dark) {
+  .tox-overlay {
+    background: rgba(30, 30, 30, 0.5);
+    color: #fff;
+  }
+}
+
+/* Reblur button styling */
+.tox-reblur-btn {
+  margin-left: 8px;
+  background: #e91e63;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.tox-reblur-btn:hover {
+  opacity: 0.85;
+}
