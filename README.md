@@ -1,8 +1,8 @@
-## Toxic Comment Filter - Browser Extension ##
+## Toxic Comment Filter - Browser Extension 
 
 A privacy-respecting browser extension that automatically detects and blurs toxic comments on YouTube, enhancing your browsing experience by shielding you from harmful or offensive content.
 
-Features
+## Features
 
 Real-Time DetectionAutomatically detects toxic comments as you browse YouTube.
 
@@ -14,17 +14,17 @@ Multi-Language SupportThe extension first sends text to an external API for lang
 
 AI-Based ClassificationUses a custom-trained deep learning model to assess toxicity based on multiple labels such as:
 
-Toxic
+- Toxic
 
-Severe Toxic
+- Severe Toxic
 
-Obscene
+- Obscene
 
-Threat
+- Threat
 
-Insult
+- Insult
 
-Identity Hate
+- Identity Hate
 
 Seamless IntegrationWorks in the background without interfering with your YouTube browsing flow.
 
