@@ -15,15 +15,10 @@ A privacy-respecting browser extension that automatically detects and blurs toxi
 5. AI-Based ClassificationUses a custom-trained deep learning model to assess toxicity based on multiple labels such as:
 
 - Toxic
-
 - Severe Toxic
-
 - Obscene
-
 - Threat
-
 - Insult
-
 - Identity Hate
 
 6. Seamless IntegrationWorks in the background without interfering with your YouTube browsing flow.
@@ -34,19 +29,19 @@ The extension scans user-generated comments on YouTube.Each comment is sent to a
 
 You can toggle visibility using the Unblur or Reblur buttons.
 
-What Happens to Non-Toxic Comments?
+## What Happens to Non-Toxic Comments?
 
 If a comment is found to be non-toxic, the extension leaves it untouched.
 
 ## Who Should Use This?
 
-People sensitive to online toxicity
+1. People sensitive to online toxicity
 
-Parents wanting safer content for their kids
+2. Parents wanting safer content for their kids
 
-Professionals who browse forums or social platforms at work
+3. Professionals who browse forums or social platforms at work
 
-Anyone seeking a calmer, healthier web experience
+4. Anyone seeking a calmer, healthier web experience
 
 ## Privacy Statement
 
