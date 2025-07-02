@@ -30,13 +30,7 @@ A privacy-respecting browser extension that automatically detects and blurs toxi
 
 ## How It Works
 
-The extension scans user-generated comments on YouTube.
-
-Each comment is sent to a language detection and translation service.
-
-The English version is analyzed using an AI model.
-
-If the comment is toxic, it is blurred.
+The extension scans user-generated comments on YouTube.Each comment is sent to a language detection and translation service.The English version is analyzed using an AI model.If the comment is toxic, it is blurred.
 
 You can toggle visibility using the Unblur or Reblur buttons.
 
@@ -62,12 +56,6 @@ All processing is done on-the-fly to protect your privacy.
 
 > Note : Third-party APIs are used only for language detection and translation, not for storing or tracking content.
 
-Coming Soon
 
-Site-specific toggling
-
-Toxicity reporting dashboard
-
-Whitelisting/blacklisting support
 
 Stay safe, stay focused. Let the web be a better place.
