@@ -1,4 +1,6 @@
-const checkedComments = new Set();
+const checkedComments = new Set(); // Stores processed DOM nodes
+let commentQueue = [];
+let isProcessing = false;
 
 function isToxic(predictions) {
   return predictions.toxic > 0.5;
@@ -6,22 +8,25 @@ function isToxic(predictions) {
 
 function applyBlur(commentContainer) {
   commentContainer.classList.add("tox-comment-container");
+
   const blurWrapper = document.createElement("div");
   blurWrapper.classList.add("tox-blur-wrapper");
+
   while (commentContainer.firstChild) {
     blurWrapper.appendChild(commentContainer.firstChild);
   }
+
   commentContainer.appendChild(blurWrapper);
 
   const overlay = document.createElement("div");
   overlay.classList.add("tox-overlay");
   overlay.innerText = "Show comment";
+
   overlay.addEventListener("click", () => removeBlur(commentContainer, blurWrapper, overlay));
   commentContainer.appendChild(overlay);
 }
 
 function removeBlur(commentContainer, blurWrapper, overlay) {
-  // unwrap content
   while (blurWrapper.firstChild) {
     commentContainer.insertBefore(blurWrapper.firstChild, blurWrapper);
   }
@@ -29,7 +34,6 @@ function removeBlur(commentContainer, blurWrapper, overlay) {
   overlay.remove();
   commentContainer.classList.remove("tox-comment-container");
 
-  // add reblur button next to YouTube's menu
   const menuRenderer = commentContainer.querySelector("ytd-menu-renderer");
   if (menuRenderer) {
     const reblurBtn = document.createElement("button");
@@ -39,39 +43,60 @@ function removeBlur(commentContainer, blurWrapper, overlay) {
       reblurBtn.remove();
       applyBlur(commentContainer);
     });
-    // insert after menu
+
     menuRenderer.parentElement.insertBefore(reblurBtn, menuRenderer.nextSibling);
   }
 }
 
-function scanComments() {
+function enqueueNewComments() {
   const allComments = document.querySelectorAll("#content-text");
-  const commentsToProcess = Array.from(allComments)
-    .filter(node => {
-      const text = node.innerText.trim();
-      return text.length > 0 && !checkedComments.has(text);
-    })
-    .slice(0, 10);
 
-  commentsToProcess.forEach(commentTextNode => {
-    const commentContainer = commentTextNode.closest("ytd-comment-thread-renderer");
-    const text = commentTextNode.innerText.trim();
-    if (!commentContainer || checkedComments.has(text)) return;
-    checkedComments.add(text);
-
-    chrome.runtime.sendMessage(
-      { type: "CHECK_TOXICITY", comment: text },
-      (response) => {
-        if (response && response.success && isToxic(response.data.predictions)) {
-          applyBlur(commentContainer);
-        } else if (!response || !response.success) {
-          console.error("API error or no response");
-        }
-      }
-    );
+  allComments.forEach(node => {
+    const container = node.closest("ytd-comment-thread-renderer");
+    if (container && !checkedComments.has(container)) {
+      commentQueue.push({ text: node.innerText.trim(), container });
+      checkedComments.add(container);
+    }
   });
+
+  if (!isProcessing) {
+    processCommentQueue();
+  }
 }
 
-const observer = new MutationObserver(scanComments);
+async function processCommentQueue(batchSize = 10) {
+  isProcessing = true;
+
+  while (commentQueue.length > 0) {
+    const batch = commentQueue.splice(0, batchSize);
+
+    const promises = batch.map(({ text, container }) =>
+      new Promise((resolve) => {
+        chrome.runtime.sendMessage(
+          { type: "CHECK_TOXICITY", comment: text },
+          (response) => {
+            if (response && response.success && isToxic(response.data.predictions)) {
+              applyBlur(container);
+            }
+            resolve(); // Always resolve
+          }
+        );
+      })
+    );
+
+    await Promise.all(promises);
+  }
+
+  isProcessing = false;
+}
+
+const observer = new MutationObserver(() => {
+  enqueueNewComments();
+});
+
 observer.observe(document.body, { childList: true, subtree: true });
-window.addEventListener("load", scanComments);
+
+window.addEventListener("load", enqueueNewComments);
+setInterval(() => {
+     processCommentQueue();
+} , 2000);

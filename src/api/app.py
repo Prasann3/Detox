@@ -1,10 +1,12 @@
-# src/api/app.py
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 from services.predict import get_prediction
 from utils.translate import translate_to_english_mymemory
-
+import threading
+import os
+cnt = 0;
+cnt_lock = threading.Lock()
 app = Flask(__name__)
 
 CORS(app, resources={r"/predict": {"origins": ["http://localhost:5000", "chrome-extension://*"]}})
@@ -16,6 +18,11 @@ CORS(app, resources={r"/predict": {"origins": ["http://localhost:5000", "chrome-
     allow_headers=["Content-Type"]
 )
 def predict():
+
+    global cnt
+    with cnt_lock :
+     cnt = cnt + 1;
+     print(cnt)
     # Handling CORS preflight
     if request.method == 'OPTIONS':
         return jsonify({'message': 'CORS preflight success'}), 200
@@ -33,7 +40,8 @@ def predict():
     # Translate before prediction
     comment_en = translate_to_english_mymemory(comment)
     result = get_prediction(comment_en)
-
+    
+   
     # get_prediction returns {"error": ..., "details": ...} on failure
     if "error" in result:
         return jsonify(result), 500
@@ -45,4 +53,5 @@ def predict():
 
 if __name__ == '__main__':
     # Local host
+    cnt = 0;
     app.run(host='0.0.0.0', port=5000, debug=True)
