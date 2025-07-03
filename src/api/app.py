@@ -5,8 +5,7 @@ from services.predict import get_prediction
 from utils.translate import translate_to_english_mymemory
 import threading
 import os
-cnt = 0;
-cnt_lock = threading.Lock()
+
 app = Flask(__name__)
 
 CORS(app, resources={r"/predict": {"origins": ["http://localhost:5000", "chrome-extension://*"]}})
@@ -19,10 +18,6 @@ CORS(app, resources={r"/predict": {"origins": ["http://localhost:5000", "chrome-
 )
 def predict():
 
-    global cnt
-    with cnt_lock :
-     cnt = cnt + 1;
-     print(cnt)
     # Handling CORS preflight
     if request.method == 'OPTIONS':
         return jsonify({'message': 'CORS preflight success'}), 200
